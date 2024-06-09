@@ -7,7 +7,7 @@ public class SavingsAccount extends BankAccount {
     //Parameter werden gegeben und initialisiert
     public SavingsAccount (String iban, long startguthaben, int zinssatz) {
         super(iban, startguthaben);
-        //TODO assert für zinssatz
+        //TODO DONE assert für zinssatz
         this.zinssatz = zinssatz;
         if (zinssatz < 0) {
                     assert false: "Zinssatz ist nicht möglich.";
@@ -17,7 +17,7 @@ public class SavingsAccount extends BankAccount {
     //Zinsen werden berechnet und zum Kontostand hinzugefügt
     public void giveInterest () {
         long zinsen = (long) (getAccountBalance() * zinssatz/1000);
-        //TODO hier deposit nutzen
+        //TODO DONE hier deposit nutzen
         //kontostand = getAccountBalance() + zinsen;
         super.deposit (zinsen);
     }
