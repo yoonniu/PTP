@@ -9,16 +9,14 @@ public class SavingsAccount extends BankAccount {
         super(iban, startguthaben);
         //TODO DONE assert für zinssatz
         this.zinssatz = zinssatz;
-        if (zinssatz < 0) {
-                    assert false: "Zinssatz ist nicht möglich.";
-                }
+        assert zinssatz >= 0: "Zinssatz ist nicht möglich.";
+                
     }
     
     //Zinsen werden berechnet und zum Kontostand hinzugefügt
     public void giveInterest () {
         long zinsen = (long) (getAccountBalance() * zinssatz/1000);
         //TODO DONE hier deposit nutzen
-        //kontostand = getAccountBalance() + zinsen;
         super.deposit (zinsen);
     }
     
