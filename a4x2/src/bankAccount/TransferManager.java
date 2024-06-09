@@ -8,17 +8,17 @@ public class TransferManager extends CurrentAccount{
     }
 
     public void transfer (CurrentAccount quelle, CurrentAccount ziel, long betrag) {
-        //TODO assert für die Parameter und weniger anweisungen
+        //TODO DONE assert für die Parameter und weniger anweisungen
         //Abheben vom Quellkonto inkl. Gebühr
+        
+        if (betrag<=0) assert false: "Transfer fehlgeschlagen.";
+        if (quelle.getAccountBalance() < betrag) assert false: "Transfer fehlgeschlagen.";
+        
         long abgehoben = quelle.withdraw(betrag);
-        //if-Anweisung zum Sicherstellen, dass das Abheben erfolgreich war
-        if (abgehoben >= 0) {
-            //wenn Abheben erfolgreich (kein Fehlercode), dann Betrag auf Zielkonto einzahlen
-            ziel.deposit(betrag);
-        } else {
-            assert false: "Transfer fehlgeschlagen.";
+        ziel.deposit(betrag);
+        
         }
         
     }
   
-}
+
