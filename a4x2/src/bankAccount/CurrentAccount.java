@@ -21,14 +21,13 @@ public class CurrentAccount extends BankAccount {
     public long withdraw (long abhebebetrag) {
         //TODO DONE assert => gebühr ist auf dem Konto
         //TODO DONE super.withdraw (abhebe + standart)
-        if (getAccountBalance() < 0) assert false;
-        if (abhebebetrag < 0) assert false;
+        assert getAccountBalance() >= 0: "Kontostand ist ungültig.";
+        assert abhebebetrag >= 0: "Abhebebetrag kann nicht negativ sein.";
         
         long gesamtabhebebetrag = abhebebetrag + standardgebühr;
         //checken, ob überhaupt genug Geld auf dem Konto
-        if (gesamtabhebebetrag > getAccountBalance()) {
-            assert false: "Nicht genug Geld auf dem Konto.";
-        }
+        assert gesamtabhebebetrag <= getAccountBalance(): "Nicht genug Geld auf dem Konto.";
+        
         
 //        kontostand = getAccountBalance() - gesamtabhebebetrag;
 //        return kontostand;
