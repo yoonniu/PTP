@@ -14,7 +14,7 @@ public class TransferManager extends CurrentAccount{
         assert betrag>=0: "Transfer fehlgeschlagen.";
         assert quelle.getAccountBalance() >= betrag: "Transfer fehlgeschlagen.";
         
-        long abgehoben = quelle.withdraw(betrag);
+        quelle.withdraw(betrag);
         ziel.deposit(betrag);
         
         }
