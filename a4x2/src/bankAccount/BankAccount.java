@@ -1,7 +1,7 @@
 package bankAccount;
 
 public class BankAccount {
-    //TODO in allen Klassen Felder auf private 
+    //TODO DONE in allen Klassen Felder auf private 
     private String iban;
     private long kontostand;
     
