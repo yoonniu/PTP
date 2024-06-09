@@ -2,8 +2,8 @@ package bankAccount;
 
 public class BankAccount {
     //TODO in allen Klassen Felder auf private 
-    public String iban;
-    public long kontostand;
+    private String iban;
+    private long kontostand;
     
     public BankAccount (String iban) {
         this.iban = iban;
@@ -12,6 +12,9 @@ public class BankAccount {
     
     public BankAccount (String iban, long startguthaben) {
         //TODO assert für BEIDE paraameter => auch in anderen Methoden
+        if (kontostand < 0) {
+            assert false: "Startguthaben nicht möglich.";
+        }
         this.iban = iban;
         this.kontostand = startguthaben;
     }
