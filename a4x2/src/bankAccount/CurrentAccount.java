@@ -19,15 +19,20 @@ public class CurrentAccount extends BankAccount {
     //überschreibt withdraw Methode um Gebühr zu berücksichtigen
     @Override
     public long withdraw (long abhebebetrag) {
+        
+        
         //TODO assert => gebühr ist auf dem Kto
         //TODO super.withdraw (abhebe + standart)
         long gesamtabhebebetrag = abhebebetrag + standardgebühr;
         //checken, ob überhaupt genug Geld auf dem Konto
-        if (gesamtabhebebetrag > kontostand) {
+        if (gesamtabhebebetrag > getAccountBalance()) {
             assert false: "Nicht genug Geld auf dem Konto.";
         }
-        kontostand = kontostand - gesamtabhebebetrag;
-        return kontostand;
+        
+//        kontostand = getAccountBalance() - gesamtabhebebetrag;
+//        return kontostand;
+        super.withdraw(gesamtabhebebetrag);
+        return getAccountBalance();
     }
     
     //gibt Gebühr aus
@@ -37,7 +42,7 @@ public class CurrentAccount extends BankAccount {
     
     @Override
     public String toString() {
-        return String.format("<%s>: Konto:%s, Kontostand:%d, Standardgebühr:%d", CurrentAccount.class.getSimpleName(), iban, kontostand, standardgebühr);
+        return String.format("<%s>: Konto:%s, Kontostand:%d, Standardgebühr:%d", CurrentAccount.class.getSimpleName(), getAccountId(), getAccountBalance(), standardgebühr);
     }
     
     
