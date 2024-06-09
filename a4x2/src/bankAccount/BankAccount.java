@@ -6,6 +6,8 @@ public class BankAccount {
     private long kontostand;
     
     public BankAccount (String iban) {
+        assert iban != null: "IBAN ungültig";
+        
         this.iban = iban;
         this.kontostand = 0;
     }
