@@ -12,9 +12,9 @@ public class BankAccount {
     
     public BankAccount (String iban, long startguthaben) {
         //TODO assert für BEIDE paraameter => auch in anderen Methoden
-        if (kontostand < 0) {
-            assert false: "Startguthaben nicht möglich.";
-        }
+        assert kontostand >= 0: "Startguthaben nicht möglich.";
+        assert iban != null: "IBAN ungültig";
+        
         this.iban = iban;
         this.kontostand = startguthaben;
     }
@@ -22,9 +22,8 @@ public class BankAccount {
     public long withdraw (long abhebebetrag) {
         //TODO assert für Parameter (mehrere Meter)
         //checken, ob überhaupt genug Geld auf dem Konto
-        if (abhebebetrag > kontostand) {
-            assert false: "Nicht genug Geld auf dem Konto.";
-        }
+        assert abhebebetrag <= kontostand: "Nicht genug Geld auf dem Konto.";
+        
         kontostand = kontostand - abhebebetrag;
         return kontostand;
     }
