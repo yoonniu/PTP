@@ -19,10 +19,11 @@ public class CurrentAccount extends BankAccount {
     //überschreibt withdraw Methode um Gebühr zu berücksichtigen
     @Override
     public long withdraw (long abhebebetrag) {
+        //TODO DONE assert => gebühr ist auf dem Konto
+        //TODO DONE super.withdraw (abhebe + standart)
+        if (getAccountBalance() < 0) assert false;
+        if (abhebebetrag < 0) assert false;
         
-        
-        //TODO assert => gebühr ist auf dem Kto
-        //TODO super.withdraw (abhebe + standart)
         long gesamtabhebebetrag = abhebebetrag + standardgebühr;
         //checken, ob überhaupt genug Geld auf dem Konto
         if (gesamtabhebebetrag > getAccountBalance()) {
