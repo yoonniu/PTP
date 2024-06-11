@@ -6,90 +6,81 @@ import static cards.Card.*;
 import static cards.Card.Constant.*;
 
 public class Hand {
-
-    public Card[] cards;
-    public int size;
-
-    // Constructor : accepts any number of cards
-    public Hand(Card... initialCards) {
-        this.cards = new Card[initialCards.length];
-        this.size = 0;
-        for (int i = 0; i < initialCards.length; i++) {
-            Card card = initialCards[i];
-            if (card != null) {
-                this.cards[size++] = card; // load cards in array
-            }
-        }
+    
+    private Card[] cards;
+    
+    // Konstruktor, der beliebig viele Karten entgegennimmt und null-Werte ignoriert
+    public Hand(Card... inputCards) {
+        
+        setHandCards(inputCards);
+        
     }
-
-    // Procedure add(): add new cards
+    // Methode zum Hinzufügen von Karten zur Hand, ignoriert null-Werte
     public void add(Card... newCards) {
-        int newSize = size + newCards.length; //check if new cards fit into current array
-        if (newSize > cards.length) {
-            expandArray(newCards.length); //if it doesn't fit > method to expand array
+        //TODO DONE direktes assert
+        assert newCards != null: "Keine Karten.";
+        
+        //TODO DONE bei ungültigen Karten soll abgebrochen werden (assert)
+        // Zähle die gültigen (nicht-null) neuen Karten
+        //TODO einige Schleifen können entfallen
+        
+        //Erstellen eines neuen Arrays mit der Größe von vorhandenen und neuen Karten
+        Card[] updatedCards = new Card[this.cards.length + newCards.length];
+        
+        int currentIndex = 0;
+        // Fülle das aktualisierte Array mit den vorhandenen Karten
+        for (int cardIndex = 0; cardIndex < this.cards.length; cardIndex++) {
+            assert this.cards[cardIndex] != null: "ungültige Karten";
+            updatedCards[currentIndex++] = this.cards[cardIndex];
         }
-        for (int i = 0; i < newCards.length; i++) { //load new cards into array
-            Card card = newCards[i];
-            if (card != null) {
-                cards[size++] = card;
-            }
+        
+        //Fülle weiter mit den neuen Karten
+        for (int cardIndex = 0; cardIndex < newCards.length; cardIndex++) {
+            assert newCards[cardIndex] != null: "Ungültige Karten.";
+            updatedCards[currentIndex++] = newCards[cardIndex];
         }
+        
+        this.cards = updatedCards;
     }
 
-    // Procedure add(): add cards of another hand
+    //Methode zum Hinzufügen der Karten einer anderen Hand zur aktuellen Hand
     public void add(Hand otherHand) {
-        Card[] otherHandCards = otherHand.getHandCards();
-        for (int i = 0; i < otherHandCards.length; i++) {
-            Card card = otherHandCards[i];
-            if (card != null) {
-                if (size == cards.length) {
-                    expandArray(cards.length);
-                }
-                cards[size++] = card;
-            }
-        }
+        add(otherHand.getHandCards());
     }
-
-    // Function isSuited(): check if cards have the same suit
+    
+    // Methode zum Überprüfen, ob alle Karten die gleiche Farbe haben
     public boolean isSuited() {
-        if (size == 0) return true; //empty hand > suited
-        Suit suit = cards[0].getSuit(); //color of first card as reference
-        for (int i = 1; i < size; i++) { //compare all cards to first card
-            if (!cards[i].getSuit().equals(suit)) { 
+        assert cards != null: "Ungültige Karten.";
+        //TODO DONE Suit firstSuit diese im if verwenden
+        if (cards.length == 0) return true; // Leere Hand ist per Definition suited
+        
+        Suit firstSuit = cards[0].getSuit();
+        for (int cardIndex = 1; cardIndex < cards.length; cardIndex++) {
+            //TODO DONE direct == der Konstanten verwenden
+            if (cards[cardIndex].getSuit() != firstSuit) {
                 return false;
             }
         }
         return true;
     }
 
-    // Function getHandCards(): returns all cards in hand
+    // Methode zum Abrufen der Karten in der Hand
     public Card[] getHandCards() {
-        Card[] currentCards = new Card[size];
-        for (int i = 0; i < size; i++) { //cards get loaded into currentcards
-            currentCards[i] = cards[i];
-        }
-        return currentCards;
+        return cards;
     }
 
-    // Procedure setHandCards(): sets hand on new cards
+    // Methode zum Setzen der Karten in der Hand, ignoriert null-Werte
+    //Überschreiben von aktuellen Karten und neue Karten werden aufgenommen
     public void setHandCards(Card... newCards) {
+        assert newCards != null: "ungültige Karten";
+        
         this.cards = new Card[newCards.length];
-        this.size = 0;
-        for (int i = 0; i < newCards.length; i++) {
-            Card card = newCards[i];
-            if (card != null) {
-                this.cards[size++] = card; //++ du prepare the array to save new card
-            }
+        
+        int currentIndex = 0;
+        // Fülle das Array mit gültigen Karten
+        for (int cardIndex = 0; cardIndex < newCards.length; cardIndex++) {
+            assert newCards[cardIndex] != null: "Karte bei Kartenindex "+ cardIndex + " ist null.";
+            this.cards[currentIndex++] = newCards[cardIndex];
         }
-    }
-
-    // expand array
-    private void expandArray(int additionalCapacity) {
-        int newCapacity = cards.length + additionalCapacity;
-        Card[] newCards = new Card[newCapacity];
-        for (int i = 0; i < size; i++) {
-            newCards[i] = cards[i];
-        }
-        cards = newCards;
     }
 }
