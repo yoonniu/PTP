@@ -13,12 +13,13 @@ public class TransferManager extends CurrentAccount{
         
         assert betrag>=0: "Transfer fehlgeschlagen.";
         assert quelle.getAccountBalance() >= betrag: "Transfer fehlgeschlagen.";
+        assert quelle != null: "das Quellkonto existiert nicht";
+        assert ziel != null: "das Zielkonto existiert nicht";
         
-        quelle.withdraw(betrag);
+        quelle.withdrawWithFees(betrag);
         ziel.deposit(betrag);
         
         }
         
     }
   
-
