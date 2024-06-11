@@ -20,10 +20,10 @@ public class PalindromeFinder {
         String längstesPalindrom = "";
 
         // Schleife durch die mögliche Länge des Substrings
-        for (int textLength = inputText.length(); textLength > 0; textLength--) {
-            for (int i = 0; i <= inputText.length() - textLength; i++) {
-                int indexVorne = i;
-                int indexHinten = i + textLength - 1;
+        for (int substringLength = inputText.length(); substringLength > 0; substringLength--) {
+            for (int substringStart = 0; substringStart <= inputText.length() - substringLength; substringStart++) {
+                int indexVorne = substringStart;
+                int indexHinten = substringStart + substringLength - 1;
                 boolean isPalindrome = true;
 
                 // Überprüfen, ob der aktuelle Substring ein Palindrom ist
@@ -36,7 +36,7 @@ public class PalindromeFinder {
 
                 // Wenn ein Palindrom gefunden wurde, speichern und zurückgeben
                 if (isPalindrome) {
-                    längstesPalindrom = inputText.substring(i, i + textLength);
+                    längstesPalindrom = inputText.substring(substringStart, substringStart + substringLength);
                     return längstesPalindrom;
                 }
             }
@@ -53,4 +53,3 @@ public class PalindromeFinder {
     }
 
 }
-
