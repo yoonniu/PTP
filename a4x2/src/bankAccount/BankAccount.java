@@ -32,6 +32,7 @@ public class BankAccount {
     
     //Geld einzahlen
     public long  deposit (long einzahlbetrag) {
+        assert einzahlbetrag >= 0: "keine negativen Einzahlungen.";
         kontostand = kontostand + einzahlbetrag;
         return kontostand;
     }
