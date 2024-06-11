@@ -6,19 +6,28 @@ public class CurrentAccount extends BankAccount {
     
     //Parameter werden gegeben und initialisiert ohne Startguthaben
     public CurrentAccount (String iban, int standardgebühr) {
+        
         super(iban);
+        assert iban != null: "ungültige IBAN.";
+        assert standardgebühr >= 0: "Gebühr kann nicht negativ sein.";
         this.standardgebühr = standardgebühr;
+        
+
     }
     
     //Parameter werden gegeben und initialisiert mit Startguthaben
     public CurrentAccount (String iban, long startguthaben, int standardgebühr) {
         super(iban, startguthaben);
+        assert iban != null: "ungültige IBAN.";
+        assert startguthaben >= 0: "Startguthaben kann nicht negativ sein.";
+        assert standardgebühr >= 0: "Gebühr kann nicht negativ sein.";
         this.standardgebühr = standardgebühr;
+        
     }
     
     //überschreibt withdraw Methode um Gebühr zu berücksichtigen
-    @Override
-    public long withdraw (long abhebebetrag) {
+    
+    public long withdrawWithFees (long abhebebetrag) {
         //TODO DONE assert => gebühr ist auf dem Konto
         //TODO DONE super.withdraw (abhebe + standart)
         assert getAccountBalance() >= 0: "Kontostand ist ungültig.";
@@ -42,9 +51,7 @@ public class CurrentAccount extends BankAccount {
     
     @Override
     public String toString() {
-        return String.format("<%s>: Konto:%s, Kontostand:%d, Standardgebühr:%d", CurrentAccount.class.getSimpleName(), getAccountId(), getAccountBalance(), standardgebühr);
+        return String.format("<%s>: %s, Standardgebühr:%d",CurrentAccount.class.getSimpleName(),super.toString(), standardgebühr);
     }
     
-    
-
 }
