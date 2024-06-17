@@ -6,39 +6,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardProcessor implements CardProcessor_I {
-    private List<Card> cards;
-    private List<Rank> ranks;
-    private int cardCounter;
+    private List<Card> cards; //store all cards
+    private List<Rank> ranks; //store the ranks of the cards
+    private int cardCounter; //amount of cards
 
-    //parameterlose Konstruktor
+    //constructor without parameters
     public CardProcessor() {
         cards = new ArrayList<>();
         ranks = new ArrayList<>();
         cardCounter = 0;
     }
-
+    
+    //process method
     @Override
-    public Object process(Card givenCard) {
+    public Object process(Card card) {
+        assert card != null: "Karte ist null";
         if (cardCounter >= 52) { //if cards are empty > reset
             reset();
         }
 
-        cards.add(givenCard);
-        ranks.add(givenCard.getRank());
+        //add cards and their rank to the lists
+        cards.add(card); 
+        ranks.add(card.getRank());
         cardCounter++;
 
-        int firstIndex = ranks.indexOf(givenCard.getRank());
-        int lastIndex = ranks.lastIndexOf(givenCard.getRank());
+        int firstIndex = ranks.indexOf(card.getRank()); //find card in list with same rank
+        int lastIndex = ranks.lastIndexOf(card.getRank()); //to create sublist and compare ranks
 
-        if (lastIndex != firstIndex && firstIndex != -1) {
-            // Find the second occurrence index
-            int secondIndex = ranks.subList(firstIndex + 1, lastIndex).indexOf(givenCard.getRank()) + firstIndex + 1;
-
-            if (secondIndex != -1) {
+        if (lastIndex != firstIndex && firstIndex != -1) { //must have same rank and firstindex must exist
+            
+            //find second card in list with same rank
+            int secondIndex = ranks.subList(firstIndex + 1, lastIndex).indexOf(card.getRank()) + firstIndex + 1;
+                            //ranks. > Liste die wir uns angucken
+                            //subList > Ausschnitt den wir uns angucken
+                            //indexOf > Methode um den Index der 2. Karte zu bekommen (aber nur Index der Unterliste)
+                                     // > + firstIndex + 1 um tatsächlichen Index herauszufinden
+            
+            if (secondIndex != -1) { //check if secondindex exists
                 return String.format("%s, %s, %s", 
                         cards.get(firstIndex), 
                         cards.get(secondIndex), 
-                        givenCard);
+                        card);
             }
         }
 
