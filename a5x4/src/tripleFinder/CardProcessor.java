@@ -36,8 +36,10 @@ public class CardProcessor implements CardProcessor_I {
         if (lastIndex != firstIndex && firstIndex != -1) { //must have same rank and firstindex must exist
             
             //find second card in list with same rank
-            int secondIndex = ranks.subList(firstIndex + 1, lastIndex).indexOf(card.getRank()) + firstIndex + 1;
-                            //ranks. > Liste die wir uns angucken
+            List<Rank> subList = ranks.subList(firstIndex + 1, lastIndex);
+            int subListSecondIndex = subList.indexOf(card.getRank());
+            int secondIndex = (subListSecondIndex != -1) ? subListSecondIndex + firstIndex + 1 : -1;
+            //ranks. > Liste die wir uns angucken
                             //subList > Ausschnitt den wir uns angucken
                             //indexOf > Methode um den Index der 2. Karte zu bekommen (aber nur Index der Unterliste)
                                      // > + firstIndex + 1 um tatsächlichen Index herauszufinden
