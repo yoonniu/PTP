@@ -3,62 +3,48 @@ package tripleFinder;
 import cards.Card;
 import cards.Card.Rank;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CardProcessor implements CardProcessor_I {
-    private List<Card> cards; //store all cards
-    private List<Rank> ranks; //store the ranks of the cards
-    private int cardCounter; //amount of cards
+
+    //create map to save cards
+    //Name of the card is the key and saved as Rank and amount of cards is saved as Arraylist
+    private Map<Rank,Collection<Card>> cardsMap = new HashMap<Rank,Collection<Card>>();
 
     //constructor without parameters
     public CardProcessor() {
-        cards = new ArrayList<>();
-        ranks = new ArrayList<>();
-        cardCounter = 0;
+        cardsMap = new HashMap<Rank,Collection<Card>>(); //creates empty map
     }
-    
-    //process method
+
     @Override
     public Object process(Card card) {
-        assert card != null: "Karte ist null";
-        if (cardCounter >= 52) { //if cards are empty > reset
-            reset();
+        assert card != null : "Card is not valid"; //check if card is valid 
+        
+        Rank currentRank = card.getRank();
+        Collection<Card> rankCollection = cardsMap.get(currentRank);
+        
+        //if Rank of currentCard is in HashMap 
+        if (cardsMap.containsKey(currentRank)) {
+            
+            rankCollection.add(card); //add card to collection
+            
+        }else{
+            //add key to map and create new arraylist to store cards of rank
+            rankCollection = new ArrayList<>(); //create new arraylist 
+            rankCollection.add(card);
+            cardsMap.put(currentRank, rankCollection); //put key and value in map
         }
 
-        //add cards and their rank to the lists
-        cards.add(card); 
-        ranks.add(card.getRank());
-        cardCounter++;
+        //if arraylist has 3 cards -> return the three cards
+        if (rankCollection.size() >= 3) return rankCollection;
+        
+    return null;
+}
 
-        int firstIndex = ranks.indexOf(card.getRank()); //find card in list with same rank
-        int lastIndex = ranks.lastIndexOf(card.getRank()); //to create sublist and compare ranks
-
-        if (lastIndex != firstIndex && firstIndex != -1) { //must have same rank and firstindex must exist
-            
-            //find second card in list with same rank
-            List<Rank> subList = ranks.subList(firstIndex + 1, lastIndex);
-            int subListSecondIndex = subList.indexOf(card.getRank());
-            int secondIndex = (subListSecondIndex != -1) ? subListSecondIndex + firstIndex + 1 : -1;
-            //ranks. > Liste die wir uns angucken
-                            //subList > Ausschnitt den wir uns angucken
-                            //indexOf > Methode um den Index der 2. Karte zu bekommen (aber nur Index der Unterliste)
-                                     // > + firstIndex + 1 um tatsächlichen Index herauszufinden
-            
-            if (secondIndex != -1) { //check if secondindex exists
-                return String.format("%s, %s, %s", 
-                        cards.get(firstIndex), 
-                        cards.get(secondIndex), 
-                        card);
-            }
-        }
-
-        return null;
-    }
-
+    //Hashmap leeren
     @Override
     public void reset() {
-        cards.clear();
-        ranks.clear();
-        cardCounter = 0;
+        cardsMap.clear();
     }
+
 }
