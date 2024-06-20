@@ -21,7 +21,8 @@ public class CardProcessor implements CardProcessor_I {
         assert card != null : "Card is not valid"; //check if card is valid 
         
         Rank currentRank = card.getRank();
-        Collection<Card> rankCollection = cardsMap.get(currentRank);
+        //get collection (arraylist) of current rank 
+        Collection<Card> rankCollection = cardsMap.get(currentRank); 
         
         //if Rank of currentCard is in HashMap 
         if (cardsMap.containsKey(currentRank)) {
