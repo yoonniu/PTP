@@ -28,11 +28,11 @@ public class TestFrameAndStarter {
     final static private Version version = new Version( encodedVersion );
     static public String getDecodedVersion(){ return version.getDecodedVersion(); }
     // Obiges (ab VERSION) dient nur der Versionierung
-    
-    
-    
-    
-    
+
+
+
+
+
     /**
      * Die Methode {@link #main() testet die Lösung zur Aufgabe "remove duplicates" - siehe Aufgabenstellung.
      * Diese Methode darf bis zur "Markierung" NICHT geändert werden
@@ -42,7 +42,7 @@ public class TestFrameAndStarter {
      * @param unused wird nicht genutzt, aber "von Java eingefordert".
      */
     public static void main( final String... unused ) {
-        
+
         // print some information at start
         System.out.printf( "TestFrame information\n" );
         System.out.printf( "=====================\n" );
@@ -66,23 +66,49 @@ public class TestFrameAndStarter {
         System.out.printf( "\n\n" );
         //
         System.out.flush();
-        
-        
-        
-        
-        
+
+
+
+
+
         // Anfang des eigentlichen Tests
         //==============================
-        
+
         final Card[] testCase = { CJ, DJ, DJ, C9, HQ, D2, HQ };
         System.out.println( Arrays.toString( testCase ) );
         final CardProcessor cardProcessor = new CardProcessor();
-        final Card[] result = cardProcessor.removeDuplicates( testCase );
+        // Added false to keep compiler happy
+        final Card[] result = cardProcessor.removeDuplicates(false, testCase );
         System.out.println( Arrays.toString( result ) );
-        
+
         //----------------------------------------------------------------------// "MARKIERUNG" ;-)
         // Ab hier dürfen Sie eigene Tests ergänzen
+         
+        /*
+        Card[] testCase2 = { CJ, DJ, null, C9, D2, HQ };
+
+        System.out.println( Arrays.toString( testCase2 ) );
+        final CardProcessor cardProcessor2 = new CardProcessor();
+        final Card[] result2 = cardProcessor2.removeDuplicates(false, testCase2 );
+        System.out.println( Arrays.toString( result2 ) ); 
+
+
+
+        Card[] testCase3 = null;
+
+         System.out.println( Arrays.toString( testCase3 ) );
+        final CardProcessor cardProcessor3 = new CardProcessor();
+        final Card[] result3 = cardProcessor3.removeDuplicates(false, testCase3 );
+        System.out.println( Arrays.toString( result3 ) ); 
         
+        Card[] testCase4 = { DJ, DJ, DJ, DJ, DJ, CK };
+
+        System.out.println( Arrays.toString( testCase4 ) );
+        final CardProcessor cardProcessor4 = new CardProcessor();
+        final Card[] result4 = cardProcessor4.removeDuplicates(true, testCase4 );
+        System.out.println( Arrays.toString( result4 ) ); */
+
+
     }//method()
-    
+
 }//class

@@ -92,6 +92,24 @@ public class TestFrameAndStarter {
         //----------------------------------------------------------------------// "MARKIERUNG" ;-)
         // Ab hier dürfen Sie eigene Tests ergänzen
         
+       /* final List<Card> list1 = new ArrayList<Card>();
+                    list1.add( null );
+                    list1.add( DJ );
+                    final Comparator<Card> usualOrder1 = new UsualOrder();
+                    System.out.println( list1 );
+                    Collections.sort( list1, usualOrder1 );
+                    System.out.println( list1 );
+                    
+                    list1.clear();
+                    list1.add(HJ);
+                    list1.add(CJ);
+                    list1.add(SJ);
+                    list1.add(DJ);
+                   
+        final Comparator<Card> usualOrder2 = new UsualOrder();
+        System.out.println( list1 );
+        Collections.sort( list1, usualOrder2 );
+        System.out.println( list1 ); */
     }//method()
     
 }//class

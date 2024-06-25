@@ -9,11 +9,13 @@ import cards.*;
 import cards.Card.*;
 import java.util.*;
 
+
+
 /**
  * CardProcessor printing cards in reverse order - see task
  * 
- * @author   Fenja 
- * @version  15.06.2024 01
+ * @author   (Fenja, Ilja) 
+ * @version  (a version number or a date)
  */
 public class CardProcessor {
     
@@ -23,39 +25,34 @@ public class CardProcessor {
      * und gibt danach alle gezogenen Karten in umgekehrter Reihenfolge wieder aus.
      *
      * @param deck              der Kartenstapel von dem die Karten gezogen werden.
-     * @param lastCard          die gewünschte Karte, die die Ziehung beendet.
+     * @param candidateCard          die gewünschte Karte, die die Ziehung beendet.
      * @param dbgOutputEnable   true schaltet Kontrollausgabe an und false aus.
      */
-     public void reverseOrder(Deck deck, Card lastCard, boolean dbgOutputEnable) {
-         Stack<Card> stack = new Stack<>();
-         boolean match = false;
-
-         // Loop until the desired card is drawn
-         while (!match) {
-             Card currentCard = deck.deal(); // Draw a card from the deck
-             stack.push(currentCard); // Push the drawn card onto the stack
-
-             // Print the current card if debug output is enabled
-             if (dbgOutputEnable) {
-                 System.out.println("Drawn card: " + currentCard);
-             }
-
-             // Check if the current card is the desired card
-             if (currentCard.equals(lastCard)) {
-                 match = true;
-             }
-         }
-
-         // Print the cards in reverse order (LIFO)
-         while (!stack.isEmpty()) {
-             System.out.println(stack.pop());
-         }
-         
-     }
-     //brauchen wir hier toString?
-//     @Override
-//     public String toString() {
-//         return String.format("<%s>: deck:%s, lastCard:%s, dbgOutputEnable:%d" CardProcessor.class.getSimpleName(), deck, lastCard, dgbOutputEnable);
-//     }
+    public void reverseOrder(Deck deck, Card candidateCard, boolean debugOutputEnable) {
+        // Aufpassen, dass gültige Parameter reinkommen
+        assert candidateCard != null && deck != null : "Deck/Candidate Card may not be null, please specify other parameters";
+        
+        //Stack über Karten
+        Stack<Card> cardStack = new Stack<Card>();
+        //boolean prüft ob karte gefunden wurde
+        boolean lookingForMatch = true;
+        
+        //TODO Do while
+        while(lookingForMatch) {
+            
+            //aktuelle Karte wird mit deckdeal gegeben und mit cardstack push auf den stack gepackt
+            Card currentCard = deck.deal();
+            //wenn die testausgabe wahr ist soll nach hinzufügen jede karte einmal ausgegeben werden
+            if(debugOutputEnable) System.out.println("Card: " + currentCard);
+            
+            cardStack.push(currentCard);
+            
+            
+            // wenn die aktuelle karte gleich dem kandidaten ist, darf man aufhören zu schauen
+            if(currentCard.equals(candidateCard)) lookingForMatch = false;    
+        }
+        //wenn karte gefunden wurde und stack gefüllt ist, soll die oberste karte ausgegeben werden
+        while(!cardStack.isEmpty()) System.out.println(cardStack.pop());  
+        
+    }
 }//class
-
