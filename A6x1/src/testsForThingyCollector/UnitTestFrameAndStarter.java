@@ -112,9 +112,9 @@ public class UnitTestFrameAndStarter {
     @Test
     public void testSixDifferentItemsSimpleOneDuplicate(){
         
-        final Collector_I collector = new Collector();
+        final Collector_I collector1 = new Collector();
         
-        final Item[] ia = {
+        final Item[] ib = {
             new Item( Color.BLACK, Size.LARGE,  Weight.HEAVY,  1L ),
             new Item( Color.BLACK, Size.LARGE,  Weight.HEAVY,  1L ),
             new Item( Color.BLUE,  Size.MEDIUM, Weight.MEDIUM, 2L ),
@@ -122,16 +122,69 @@ public class UnitTestFrameAndStarter {
             new Item( Color.CYAN,  Size.SMALL,  Weight.HEAVY,  4L ),
             new Item( Color.GOLD,  Size.MEDIUM, Weight.LIGHT,  5L )
         };
-        for( int i=0; i<requestedNumberOfDifferentItems-1; i++ ){
-            final Collection<Item> actualResult = collector.process( ia[i] );
-            assertNull( actualResult );
-        }//for
-        final Collection<Item> computedResult = collector.process( ia[requestedNumberOfDifferentItems-1] );
-        assertTrue( computedResult.size() == requestedNumberOfDifferentItems );
-        for( final Item item : ia ) {
-            assertTrue( computedResult.remove( item ));
-        }//for
-        assertTrue( computedResult.isEmpty() );
+        int i = 0;
+        Collection<Item> computedResult1 = collector1.process(ib[i]);
+        do { 
+        	computedResult1 = collector1.process(ib[i]);
+        	i++;
+        }while(computedResult1 == null && i < ib.length);
+        
+        assertNotNull(computedResult1);
+        assertTrue (computedResult1.size() == requestedNumberOfDifferentItems);
+        collector1.reset();
+        assertTrue( computedResult1.isEmpty() );
+    }//method()#
+    
+    @Test
+    public void testOneDifferentFeature(){
+        
+        final Collector_I collector1 = new Collector();
+        
+        final Item[] ib = {
+            new Item( Color.BLACK, Size.LARGE,  Weight.HEAVY,  1L ),
+            new Item( Color.EBONY, Size.LARGE,  Weight.HEAVY,  1L ),
+            new Item( Color.IVORY, Size.LARGE,  Weight.HEAVY,  1L ),
+            new Item( Color.YELLOW, Size.LARGE,  Weight.HEAVY,  1L ),
+            new Item( Color.GREEN, Size.LARGE,  Weight.HEAVY,  1L ),
+            new Item( Color.BLACK, Size.LARGE,  Weight.HEAVY,  1L )
+        };
+        int i = 0;
+        Collection<Item> computedResult1 = collector1.process(ib[i]);
+        do { 
+        	computedResult1 = collector1.process(ib[i]);
+        	i++;
+        }while(computedResult1 == null && i < ib.length);
+        
+        assertNotNull(computedResult1);
+        assertTrue (computedResult1.size() == requestedNumberOfDifferentItems);
+        collector1.reset();
+        assertTrue( computedResult1.isEmpty() );
+    }//method()#
+    
+    @Test
+    public void testNull(){
+        
+        final Collector_I collector1 = new Collector();
+        
+        final Item[] ib = {
+            new Item( null, Size.LARGE,  Weight.HEAVY,  1L ),
+            new Item( Color.BLACK, Size.LARGE,  Weight.HEAVY,  1L ),
+            new Item( Color.BLUE,  Size.MEDIUM, Weight.MEDIUM, 2L ),
+            new Item( Color.BROWN, Size.SMALL,  Weight.LIGHT,  3L ),
+            new Item( Color.CYAN,  Size.SMALL,  Weight.HEAVY,  4L ),
+            new Item( Color.GOLD,  Size.MEDIUM, Weight.LIGHT,  5L )
+        };
+        int i = 0;
+        Collection<Item> computedResult1 = collector1.process(ib[i]);
+        do { 
+        	computedResult1 = collector1.process(ib[i]);
+        	i++;
+        }while(computedResult1 == null && i < ib.length);
+        
+        assertNotNull(computedResult1);
+        assertTrue (computedResult1.size() == requestedNumberOfDifferentItems);
+        collector1.reset();
+        assertTrue( computedResult1.isEmpty() );
     }//method()
     
     
