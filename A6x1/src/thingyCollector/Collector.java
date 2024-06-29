@@ -5,8 +5,10 @@ import _untouchable_.thingy.*;
 
 public class Collector implements Collector_I{
 	
-	HashSet<Item> itemSet = new HashSet<Item>();
-	Queue <Item> queue = new PriorityQueue<Item>();
+	HashSet<Item> itemSet;
+	Queue <Item> queue;
+	ArrayList<Item> collectedItems;
+	boolean valid = true;
 	
 	public Collector() { //erzeugt einen Collector
 		
@@ -17,23 +19,26 @@ public class Collector implements Collector_I{
 	@Override
 	public Collection<Item> process(Item item) {
 		
-		assert (item == null) : "Item is not valid";
-		
-		if (!itemSet.contains(item)) {
-			itemSet.add(item);
-			queue.add(item);
-		}else {
-			
-			//erstelle neue Queue von gleichen Items
+		checkValidity(item); 
+		if (!valid) {
+			valid = true; //set boolean to true for next item
+			return null;
 		}
 		
-		if (itemSet.size()>= 5) {
+		if (itemSet.contains(item)) { //add item to queue if its in set
+			queue.add(item);
+		}
+			itemSet.add(item);
+		
+		if (itemSet.size()>= 5) { 
 			
-			ArrayList<Item> collectedItems = new ArrayList<>(itemSet);
+			collectedItems = new ArrayList<>(itemSet);
+			itemSet.clear();
+			fillUp(); //fill set with duplicates
+				
 			return collectedItems;
 			
-			//TODO Items sollen aus queue rausgenommen werden
-			//TODO wenn Queues leer sind > aus Hashmap rausnehmen
+
 		}
 		return null;
 	}
@@ -42,63 +47,26 @@ public class Collector implements Collector_I{
 		
 		itemSet.clear();
 		queue.clear();
+		collectedItems.clear();
+	}
+	
+	//check if item or one of its features is null
+	public void checkValidity(Item item) {
+		
+		if (item == null) {valid = false;}
+		if (item.getColor() == null) {valid = false;}
+		if (item.getSize() == null) {valid = false;}
+		if (item.getWeight() == null) {valid = false;}
+		if (item.getValue() == null) {valid = false;}	
+	}
+	
+	//add items from queue to set
+	public void fillUp () {
+		
+		for (int i = 0; i < queue.size(); i++) {
+			
+			Item item = queue.poll();
+			itemSet.add(item);	
+		}
 	}
 }
-
-
-//package thingyCollector;
-//
-//import java.util.*;
-//import _untouchable_.thingy.*;
-//
-//public class Collector implements Collector_I {
-//
-//    // Using a HashMap to maintain lists of duplicates for each item
-//    private Map<Item, List<Item>> itemMap;
-//    private LinkedList<Item> distinctItemsList;
-//
-//    public Collector() {
-//        itemMap = new HashMap<>();
-//        distinctItemsList = new LinkedList<>();
-//    }
-//
-//    @Override
-//    public Collection<Item> process(Item item) {
-//        if (item == null) {
-//            throw new IllegalArgumentException("Item cannot be null");
-//        }
-//
-//        // Add item to the map and manage duplicates
-//        itemMap.putIfAbsent(item, new ArrayList<>());
-//        itemMap.get(item).add(item);
-//
-//        // Add item to distinct items list if it's the first time it's seen
-//        if (itemMap.get(item).size() == 1) {
-//            distinctItemsList.add(item);
-//        }
-//
-//        // If we have collected 5 distinct items, return them
-//        if (distinctItemsList.size() >= 5) {
-//            List<Item> collectedItems = new ArrayList<>(distinctItemsList.subList(0, 5));
-//
-//            // Remove only one set of distinct items from the distinct items list
-//            for (Item collectedItem : collectedItems) {
-//                if (itemMap.get(collectedItem).size() == 1) {
-//                    itemMap.remove(collectedItem);
-//                } else {
-//                    itemMap.get(collectedItem).remove(0);
-//                }
-//                distinctItemsList.remove(collectedItem);
-//            }
-//            return collectedItems;
-//        }
-//
-//        return null;
-//    }
-//
-//    @Override
-//    public void reset() {
-//        itemMap.clear();
-//        distinctItemsList.clear();
-//    }
-//}
