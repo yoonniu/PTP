@@ -2,7 +2,18 @@ package wordCounter;
 
 public class Counter {
 	
-	//zählt wie oft Wort vorkommt
-	//Methode void inc()
+	private int count;
+	
+	public Counter() {this.count = 1;}
 
+    public int getCount() {return count;}
+
+    public void inc() {this.count++;}
+    
+    @Override
+	public String toString() {
+		return String.valueOf(count);
+    }
 }
+
+
