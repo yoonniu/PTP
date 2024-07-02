@@ -66,18 +66,16 @@ public class MultiPurposeList<T> implements MultiPurposeList_I<T> {
     }
 
     @Override
-    public T setNo(int requestedPosition, Object info) {
+    public T setNo(int requestedPosition, T newinfo) {
 
-        if (requestedPosition>= 0 && requestedPosition <= size) {
-            Node<T> newNode = iGetNodeNo(requestedPosition);
-            T infoCopy = newNode.info;
+        assert (requestedPosition>= 0 && requestedPosition <= size): "invalid requirements";
 
-            newNode.info = (T) info;
-            return infoCopy;
-        }else {
-            return null;
-        }
+        final T infoCopy = iGetNodeNo(requestedPosition).info;
+        iGetNodeNo(requestedPosition).info = newinfo;
+        return infoCopy;
+
     }
+
 
     @Override
     public void putNo(int requestedPosition, T info) {
@@ -125,13 +123,12 @@ public class MultiPurposeList<T> implements MultiPurposeList_I<T> {
     @Override
     public boolean remove(T info) {
 
-        Node<T> newNode = iSearchNode(info);
-        int newPosition;
-        newPosition = newNode.position;
-        removeNo(newPosition);
-        size--;
-
-        return !contains(info) && newNode == null; 
+        final Node<T> toDeleteNode = iSearchNode(info);
+        if (toDeleteNode != null) {
+            iRemoveNode(toDeleteNode);
+            return true;
+        }
+        return false; 
     }
     @Override
     public void removeNo(int requestedPosition) {
@@ -162,7 +159,7 @@ public class MultiPurposeList<T> implements MultiPurposeList_I<T> {
     private Node<T> iSearchNode (T info) {
         assert null != info : "unsupported argument";
         //int position = 0;
-        Node current = head;
+        Node<T> current = head;
         while (null!= current && !current.info.equals(info)) {
             current = current.next;
             //position++;
@@ -174,15 +171,12 @@ public class MultiPurposeList<T> implements MultiPurposeList_I<T> {
 
         assert (index > 0 || index <= size): "index out of bounds";
 
-        int position = 0;
         Node<T> current = head;
-        while (current != null) {
-            if (position == index) {
-                current.position = position;
-                return current;
-            }
+
+        for (int i = 0; i < index; i++) {
+            current = current.next;
         }
-        return null;
+        return current;
     }
     //remove node and confirm
     private boolean iRemoveNode(Node<T> node) {
