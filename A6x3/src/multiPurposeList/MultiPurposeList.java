@@ -47,14 +47,14 @@ public class MultiPurposeList<T> implements MultiPurposeList_I<T> {
 
     @Override
     public T getNo(int requestedPosition) {
-        
+
         Node<T> newNode = iGetNodeNo(requestedPosition);
         return newNode != null ? newNode.info : null; //check if Node exists
     }
 
     @Override
     public T extractNo(int requestedPosition) {
-        
+
         Node<T> newNode = iGetNodeNo(requestedPosition);
         if (newNode == null) {
             return null;
@@ -62,16 +62,16 @@ public class MultiPurposeList<T> implements MultiPurposeList_I<T> {
         T infoCopy = newNode.info;
         iRemoveNode(newNode);
         return infoCopy;
-    
+
     }
 
     @Override
     public T setNo(int requestedPosition, Object info) {
-        
+
         if (requestedPosition>= 0 && requestedPosition <= size) {
             Node<T> newNode = iGetNodeNo(requestedPosition);
             T infoCopy = newNode.info;
-            
+
             newNode.info = (T) info;
             return infoCopy;
         }else {
@@ -84,9 +84,9 @@ public class MultiPurposeList<T> implements MultiPurposeList_I<T> {
         //21_22 page 49
         assert null!= info: "invalid parameter - given information element is null";
         assert 0<= requestedPosition && requestedPosition <= size : "invalid parameter - given position is out of range";
-        
+
         final Node<T> theNewNode = new Node<T>(info);
-        
+
         if (size == 0) { //if list is empty
             head = theNewNode;
             tail = theNewNode;
@@ -99,46 +99,47 @@ public class MultiPurposeList<T> implements MultiPurposeList_I<T> {
             theNewNode.prev = tail;
             tail = theNewNode;
         }else {
-             Node<T> work;
-             if (requestedPosition <= size >> 1) { //if position is in first half of the list
-                 work = head;
-                 for (int i= requestedPosition-1; --i>=0; ) {
-                     work = work.next;
-                 }
-             }else { //if position is in second half; going backwards
-                 work = tail;
-                 for (int i= size - requestedPosition; --i>=0; ) {
-                     work = work.prev;
-                 }
-             }
-             final Node<T> predecessor = work;
-             final Node<T> succesor = work.next;
-             
-             theNewNode.prev = predecessor;
-             theNewNode.next = succesor;
-             predecessor.next = theNewNode;
-             succesor.prev = theNewNode;
-            
+            Node<T> work;
+            if (requestedPosition <= size >> 1) { //if position is in first half of the list
+                work = head;
+                for (int i= requestedPosition-1; --i>=0; ) {
+                    work = work.next;
+                }
+            }else { //if position is in second half; going backwards
+                work = tail;
+                for (int i= size - requestedPosition; --i>=0; ) {
+                    work = work.prev;
+                }
+            }
+            final Node<T> predecessor = work;
+            final Node<T> succesor = work.next;
+
+            theNewNode.prev = predecessor;
+            theNewNode.next = succesor;
+            predecessor.next = theNewNode;
+            succesor.prev = theNewNode;
+
         }
         size++;
     }
     @Override
     public boolean remove(T info) {
-        
+
         Node<T> newNode = iSearchNode(info);
         int newPosition;
         newPosition = newNode.position;
         removeNo(newPosition);
-        
+        size--;
+
         return !contains(info) && newNode == null; 
     }
     @Override
-    public void removeNo(int requstedPosition) {
+    public void removeNo(int requestedPosition) {
 
         //assert null != requstedPosition : "unsupported argument";
         Node<T> work = head;
         Node<T> prev = null;
-        while( null != work && ! work.info.equals(requstedPosition) ){
+        while( null != work && ! work.info.equals(requestedPosition) ){
             prev = work;
             work = work.next;
         }
@@ -146,7 +147,7 @@ public class MultiPurposeList<T> implements MultiPurposeList_I<T> {
             if( work == tail ){ 
                 tail = prev; 
                 tail.next = null;
-                }
+            }
             if( work == head ){
                 head = work.next;
                 head.prev = null;
@@ -155,16 +156,18 @@ public class MultiPurposeList<T> implements MultiPurposeList_I<T> {
                 work.next.prev = work.prev;
             }
         }
+        size--;
     }
+
     private Node<T> iSearchNode (T info) {
         assert null != info : "unsupported argument";
-        int position = 0;
-        Node work = head;
-        while (null!= work && !work.info.equals(info)) {
-            work = work.next;
-            position++;
+        //int position = 0;
+        Node current = head;
+        while (null!= current && !current.info.equals(info)) {
+            current = current.next;
+            //position++;
         }
-        return work;
+        return current;
     }
     //search for node that references information object at given index
     private Node<T> iGetNodeNo(int index) {
@@ -178,13 +181,12 @@ public class MultiPurposeList<T> implements MultiPurposeList_I<T> {
                 current.position = position;
                 return current;
             }
-            current = current.next;
-            position++;
         }
         return null;
     }
     //remove node and confirm
     private boolean iRemoveNode(Node<T> node) {
+
         if (node == null) {
             return false;
         }
@@ -205,9 +207,10 @@ public class MultiPurposeList<T> implements MultiPurposeList_I<T> {
         node.next = null;
         size--;
         updatePositions(node.position);
+
         return true;
     }
-    
+
     private void updatePositions(int startPos) {
         Node<T> current = iGetNodeNo(startPos);
         while (current != null) {
