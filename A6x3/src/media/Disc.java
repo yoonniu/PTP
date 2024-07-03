@@ -44,7 +44,7 @@ public class Disc {
     //TODO toString in BASDISKLASSE UND spezalisierten Klassen deklar. und mit super.toString nutzen
     @Override
     public String toString( ) {
-    	return String.format("Disc [titel=\" + titel + \"]");
+    	return String.format("Disc Titel = %s, Content = %s", titel, content);
     }
 
 
