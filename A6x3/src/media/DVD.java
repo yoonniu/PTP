@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class DVD extends Disc {
     // TODO basistypen aus Disk sollen genutzt werden, done
-    Format format; 
+    private Format format; 
 
     public DVD(String titel, Content content, Format format) {
         super(titel, content);
@@ -22,13 +22,13 @@ public class DVD extends Disc {
     @Override
     public boolean equals(Object obj) {
         if (!super.equals(obj)) {
-        	return false;
+            return false;
         }
-        if (obj == null || getClass() != obj.getClass()) {
-        	return false;
+        if (getClass() != obj.getClass()) {
+            return false;
         }
         DVD other = (DVD) obj;
-        return Objects.equals(format, other.format);
+        return format == other.format;
     }
 
     @Override
