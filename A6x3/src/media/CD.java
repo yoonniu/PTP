@@ -3,8 +3,8 @@ package media;
 import java.util.Objects;
 
 public class CD extends Disc {
-	
-    String interpret;
+    
+    private String interpret;
     
     public CD(String titel, Content content, String interpret) {
         super(titel, content);
@@ -22,11 +22,11 @@ public class CD extends Disc {
         if (!super.equals(obj)) {
             return false;
         }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass()) {
            return false;
         }
         CD other = (CD) obj;
-        return Objects.equals(interpret, other.interpret);
+        return interpret.equals(other.interpret);
     }
     
     @Override
@@ -34,11 +34,3 @@ public class CD extends Disc {
         return String.format(super.toString() + " %s , %s", CD.class.getSimpleName(), interpret);
     }
 }
-
-
-
-
-
-
-
-
